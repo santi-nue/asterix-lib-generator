@@ -1,5 +1,5 @@
 name: rebuild and deploy
-on: [push, pull_request, workflow_dispatch]
+on: [push]
 jobs:
     main:
         runs-on: ubuntu-latest
@@ -10,14 +10,4 @@ jobs:
               run: |
                 echo $GITHUB_SHA
                 nix-build --argstr gitrev $GITHUB_SHA
-                rsync -r -L --delete result/ output/
-                find output -type d | xargs chmod 755
-                find output -type f | xargs chmod 644
-                touch output/.nojekyll
-            - name: deploy
-              if: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/master' }}
-              uses: JamesIves/github-pages-deploy-action@v4
-              with:
-                folder: output
-                single-commit: true
 
