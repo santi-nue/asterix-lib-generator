@@ -8,6 +8,4 @@ jobs:
             - uses: cachix/install-nix-action@master
             - name: rebuild
               run: |
-                echo $GITHUB_SHA
-                nix-build --argstr gitrev $GITHUB_SHA
-
+                nix-build
